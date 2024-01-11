@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block body %}
+<h2>Tasks</h2>                
+    <div class="container m-auto d-flex flex-wrap gap-2">
+            {% if form %}
+        {% for data in form %}
+            <div class="card" style="width: 18rem;">
+                <div class="card-body">
+                    <h5 class="card-title">{{ data.title }}</h5>
+                    <h6 class="card-subtitle mb-2 text-body-secondary">{{ data.description }}</h6>
+                    <p class="card-text">Task Assign Date: {{ data.task_Assign_date }}</p>
+                    <p class="card-text">Categories:
+                        {% for category in data.category.all %}
+                            {{ category.name }}
+                        {% endfor %}
+                    </p>
+                    {% if data.is_completed %}
+                    <button class="btn btn-success">Completed</button>
+                    {%else%}
+                    <a  class="btn btn-warning" href="{% url "edit" data.id %}">Edit</a>
+                    <a  class="btn btn-danger" href="{% url "delete" data.id %}">Delete</a>
+                    {% endif %}
+                </div>
+            </div>
+        {% endfor %}
+    {% else %}
+        <p>No tasks found.</p>
+    {% endif %}
+    </div>
+    
+
+{% endblock body %}
